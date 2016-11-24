@@ -27,10 +27,11 @@ def search_blob_demo():
     try:
         with connection.cursor() as cursor:
             # 执行sql语句，进行查询
-            sql = 'select * from boohee'
+            sql = 'select * from boohee limit 10'
             # 获取查询结果
             cursor.execute(sql)
             data = cursor.fetchone()
+            # data = cursor.fetchall()
             for key, value in list(six.iteritems(data)):
                 if isinstance(value, (bytearray, six.binary_type)):
                     # data[key] = value.decode('utf8')
@@ -38,7 +39,15 @@ def search_blob_demo():
                     data[key] = utils.text(value)
             if 'result' in data:
                 data['result'] = json.loads(data['result'])
-            print(data)
+            # print(data)
+            contents = data['result']['contents'].split('>>')[0].strip().split(' ')[2:]
+            # print(len(contents))
+            for i in range(len(contents)):
+                if (i % 2) == 0:
+                    print('name:' + contents[i])
+                else:
+                    print('value:' + contents[i])
+
             """
             {'url': 'http://www.boohee.com/shiwu/niuru_junzhi', 'taskid': '0137f12ec1348158a407f5fb622c64c7',
             'updatetime': 1479816033.2923,
@@ -46,7 +55,14 @@ def search_blob_demo():
                 'url': 'http://www.boohee.com/shiwu/niuru_junzhi',
                 'title': '牛奶的热量，牛奶减肥 - 薄荷食物库',
                 'content': {'value': '含量(每100毫升) 含量(每100毫升) 54.00 3.40 3.20 3.00 0.00 24.00', 'name': '营养素 营养素 热量(大卡) 碳水化合物(克) 脂肪(克) 蛋白质(克) 纤维素(克) 维生素A(微克)'},
-                'contents': '营养素 含量(每100毫升) 营养素 含量(每100毫升) 热量(大卡) 54.00 碳水化合物(克) 3.40 脂肪(克) 3.20 蛋白质(克) 3.00 纤维素(克) 0.00 维生素A(微克) 24.00 维生素C(毫克) 1.00 维生素E(毫克) 0.21 胡萝卜素(微克) 一 硫胺素(毫克) 0.03 核黄素(毫克) 0.14 烟酸(毫克) 0.10 胆固醇(毫克) 15.00 镁(毫克) 11.00 钙(毫克) 104.00 铁(毫克) 0.30 锌(毫克) 0.42 铜(毫克) 0.02 锰(毫克) 0.03 钾(毫克) 109.00 磷(毫克) 73.00 钠(毫克) 37.20 硒(微克) 1.94 >> 详细'
+                'contents': '
+                营养素 含量(每100毫升) 营养素 含量(每100毫升)
+                热量(大卡) 54.00 碳水化合物(克) 3.40 脂肪(克) 3.20
+                蛋白质(克) 3.00 纤维素(克) 0.00 维生素A(微克) 24.00 维生素C(毫克) 1.00 维生素E(毫克) 0.21
+                胡萝卜素(微克) 一 硫胺素(毫克) 0.03
+                核黄素(毫克) 0.14 烟酸(毫克) 0.10 胆固醇(毫克) 15.00 镁(毫克) 11.00
+                钙(毫克) 104.00 铁(毫克) 0.30 锌(毫克) 0.42 铜(毫克) 0.02 锰(毫克) 0.03 钾(毫克) 109.00
+                磷(毫克) 73.00 钠(毫克) 37.20 硒(微克) 1.94 >> 详细'
                 }
             }
 
@@ -57,4 +73,4 @@ def search_blob_demo():
         connection.close()
 
 
-# search_blob_demo()
+search_blob_demo()
