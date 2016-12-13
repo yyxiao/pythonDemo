@@ -24,7 +24,7 @@ title_row = ['营养素', '热量(大卡)', '碳水化合物(克)', '脂肪(克)
 def search_blob_demo():
     # 连接配置信息
     mysql_config = {
-        'host': '192.168.1.244',
+        'host': '127.0.0.1',
         'port': 3306,
         'user': 'root',
         'password': 'root',
@@ -83,7 +83,7 @@ def search_blob_demo():
                 #         sheet.cell(row=1, column=len(title_row_all) + k + 1, value='别名' + str(k))
                 sheet.append(content_all)
             # 保存文件
-            wb.save("薄荷网食物data-模板.xlsx")
+            wb.save("薄荷网食物data-特殊.xlsx")
 
         # 没有设置默认自动提交，需要主动提交，以保存所执行的语句
         connection.commit()
