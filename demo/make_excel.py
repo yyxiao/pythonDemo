@@ -10,9 +10,12 @@ import json
 import six
 from pyspider.libs import utils
 
-title_row_all = ['名称', '类别', '别名', '营养素', '热量(大卡)', '碳水化合物(克)', '脂肪(克)', '蛋白质(克)', '纤维素(克)', '维生素A(微克)', '维生素C(毫克)',
+title_row_all = ['名称', '类别', '营养素', '热量(大卡)', '碳水化合物(克)', '脂肪(克)', '蛋白质(克)', '纤维素(克)', '维生素A(微克)', '维生素C(毫克)',
                  '维生素E(毫克)', '胡萝卜素(微克)', '硫胺素(毫克)', '核黄素(毫克)', '烟酸(毫克)', '胆固醇(毫克)', '镁(毫克)', '钙(毫克)', '铁(毫克)', '锌(毫克)',
                  '铜(毫克)', '锰(毫克)', '钾(毫克)', '磷(毫克)', '钠(毫克)', '硒(微克)']
+# title_row_all = ['名称', '类别', '别名', '营养素', '热量(大卡)', '碳水化合物(克)', '脂肪(克)', '蛋白质(克)', '纤维素(克)', '维生素A(微克)', '维生素C(毫克)',
+#                  '维生素E(毫克)', '胡萝卜素(微克)', '硫胺素(毫克)', '核黄素(毫克)', '烟酸(毫克)', '胆固醇(毫克)', '镁(毫克)', '钙(毫克)', '铁(毫克)', '锌(毫克)',
+#                  '铜(毫克)', '锰(毫克)', '钾(毫克)', '磷(毫克)', '钠(毫克)', '硒(微克)']
 title_row = ['营养素', '热量(大卡)', '碳水化合物(克)', '脂肪(克)', '蛋白质(克)', '纤维素(克)', '维生素A(微克)', '维生素C(毫克)', '维生素E(毫克)', '胡萝卜素(微克)',
              '硫胺素(毫克)', '核黄素(毫克)', '烟酸(毫克)', '胆固醇(毫克)', '镁(毫克)', '钙(毫克)', '铁(毫克)', '锌(毫克)', '铜(毫克)', '锰(毫克)', '钾(毫克)',
              '磷(毫克)', '钠(毫克)', '硒(微克)']
@@ -67,20 +70,20 @@ def search_blob_demo():
                 # print(len(contents))
                 content_all.insert(0, data[i]['result']['name'])
                 content_all.insert(1, data[i]['result']['type'])
-                if data[i]['result']['other_name']:
-                    content_all.insert(2, data[i]['result']['other_name'])
-                else:
-                    content_all.insert(2, '')
-                if data[i]['result']['other_name']:
-                    other_name_list = data[i]['result']['other_name'].split('、')
-                    # 处理别名信息
-                    for k in range(len(other_name_list)):
-                        content_all.insert(len(title_row_all) + k, other_name_list[k])
-                        # 拼接别名title
-                        sheet.cell(row=1, column=len(title_row_all) + k + 1, value='别名' + str(k))
+                # if data[i]['result']['other_name']:
+                #     content_all.insert(2, data[i]['result']['other_name'])
+                # else:
+                #     content_all.insert(2, '')
+                # if data[i]['result']['other_name']:
+                #     other_name_list = data[i]['result']['other_name'].split('、')
+                #     # 处理别名信息
+                #     for k in range(len(other_name_list)):
+                #         content_all.insert(len(title_row_all) + k, other_name_list[k])
+                #         # 拼接别名title
+                #         sheet.cell(row=1, column=len(title_row_all) + k + 1, value='别名' + str(k))
                 sheet.append(content_all)
             # 保存文件
-            wb.save("薄荷网食物data-.xlsx")
+            wb.save("薄荷网食物data-模板.xlsx")
 
         # 没有设置默认自动提交，需要主动提交，以保存所执行的语句
         connection.commit()
