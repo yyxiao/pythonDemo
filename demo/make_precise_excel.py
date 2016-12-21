@@ -1,16 +1,14 @@
 # -*- coding:utf-8 -*-  
 """
-Create on 16/11/24
+Create on 16/12/21
 Author xiaoyy
 """
-# import datetime
 from openpyxl import Workbook
-from openpyxl.styles import Font,colors
 import pymysql
 import json
 import six
 from pyspider.libs import utils
-from demo.common.constants import SEARCH_LIST, SEARCH_LIST1, SEARCH_LIST2
+from demo.common.constants import SEARCH_LIST2
 from demo.common.colors import font1
 
 title_row_all = ['名称', '类别', '营养素', '热量(大卡)', '碳水化合物(克)', '脂肪(克)', '蛋白质(克)', '纤维素(克)', '维生素A(微克)', '维生素C(毫克)',
@@ -43,7 +41,7 @@ def search_blob_demo():
     try:
         with connection.cursor() as cursor:
             # 执行sql语句，进行查询
-            sql = 'select * from boohee4'
+            sql = 'select * from boohee3'
             # 获取查询结果
             cursor.execute(sql)
             # data = cursor.fetchone()
@@ -54,8 +52,8 @@ def search_blob_demo():
             # 可以附加行，从第一列开始附加
             sheet.append(title_row_all)
             num = 1
-            for j in range(len(SEARCH_LIST1)):
-                search_key = SEARCH_LIST1[j]
+            for j in range(len(SEARCH_LIST2)):
+                search_key = SEARCH_LIST2[j]
                 search_key_title = []
                 search_key_title.append(search_key)
                 sheet.append(search_key_title)
@@ -77,7 +75,7 @@ def search_blob_demo():
                         if isinstance(result, str):
                             data[i]['result'] = json.loads(data[i]['result'])
                             # print(data)
-                    if search_key != data[i]['result']['search']:
+                    if search_key != data[i]['result']['name']:
                         continue
                     else:
                         # 过滤type_row数据
@@ -116,7 +114,7 @@ def search_blob_demo():
             # ft = Font(color=colors.RED)  # 定义一个可以共享的Styles
             # a1.font = ft
             # 保存文件
-            wb.save("薄荷网食物data-查询key分类鸡.xlsx")
+            wb.save("薄荷网食物data-precise.xlsx")
 
         # 没有设置默认自动提交，需要主动提交，以保存所执行的语句
         connection.commit()
