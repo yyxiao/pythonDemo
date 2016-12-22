@@ -5,4 +5,4 @@ Author xiaoyy
 """
 from openpyxl.styles import Font, colors
 
-font1 = Font(name=u'宋体', size=20, color=colors.RED, bold=True)
+font1 = Font(name=u'宋体', size=20, color=colors.BLUE, bold=True)

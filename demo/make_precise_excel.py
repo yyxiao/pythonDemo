@@ -41,10 +41,9 @@ def search_blob_demo():
     try:
         with connection.cursor() as cursor:
             # 执行sql语句，进行查询
-            sql = 'select * from boohee3'
+            sql = 'select * from boohee6'
             # 获取查询结果
             cursor.execute(sql)
-            # data = cursor.fetchone()
             data = cursor.fetchall()
             wb = Workbook()
             # 激活 worksheet
@@ -54,13 +53,6 @@ def search_blob_demo():
             num = 1
             for j in range(len(SEARCH_LIST2)):
                 search_key = SEARCH_LIST2[j]
-                search_key_title = []
-                search_key_title.append(search_key)
-                sheet.append(search_key_title)
-                num += 1
-                #获取title行
-                title_cell = sheet.cell(None,num,1)
-                title_cell.font = font1
                 for i in range(len(data)):
                     for key, value in list(six.iteritems(data[i])):
                         if isinstance(value, (bytearray, six.binary_type)):
@@ -69,12 +61,10 @@ def search_blob_demo():
                             data[i][key] = utils.text(value)
                     if 'result' in data[i]:
                         result = data[i]['result']
-                        # print(result)
-                        # print(type(result))
                         # 判断result类型为str
                         if isinstance(result, str):
                             data[i]['result'] = json.loads(data[i]['result'])
-                            # print(data)
+                    # 判断search_key 精准匹配name
                     if search_key != data[i]['result']['name']:
                         continue
                     else:
@@ -82,6 +72,16 @@ def search_blob_demo():
                         if data[i]['result']['type'] in type_row:
                             continue
                         else:
+                            search_key_title = []
+                            search_key_title.append(search_key)
+                            sheet.append(search_key_title)
+                            num += 1
+                            # 获取title行
+                            title_cell = sheet.cell(None, num, 1)
+                            title_cell.font = font1
+                            # merge cells from num row
+                            sheet.merge_cells(None, num, 1, num, 3)
+
                             contents = data[i]['result']['contents'].split('>>')[0].strip().split(' ')[2:]
                             content_all = []
                             for s in range(len(title_row)):
@@ -90,31 +90,13 @@ def search_blob_demo():
                                         if title_row[s] == contents[z]:
                                             content_all.append('' if contents[z + 1] == '一' else contents[z + 1])
                                 else:
-                                    # content_all.append('-')
                                     content_all.append('')
-                            # print(len(contents))
                             content_all.insert(0, data[i]['result']['name'])
                             content_all.insert(1, data[i]['result']['type'])
-                            # 处理别名
-                            # if data[i]['result']['other_name']:
-                            #     content_all.insert(2, data[i]['result']['other_name'])
-                            # else:
-                            #     content_all.insert(2, '')
-                            # if data[i]['result']['other_name']:
-                            #     other_name_list = data[i]['result']['other_name'].split('、')
-                            #     # 处理别名信息
-                            #     for k in range(len(other_name_list)):
-                            #         content_all.insert(len(title_row_all) + k, other_name_list[k])
-                            #         # 拼接别名title
-                            #         sheet.cell(row=1, column=len(title_row_all) + k + 1, value='别名' + str(k))
                             sheet.append(content_all)
                             num += 1
-            # a1 = sheet['A1']
-            # d4 = sheet['D4']
-            # ft = Font(color=colors.RED)  # 定义一个可以共享的Styles
-            # a1.font = ft
             # 保存文件
-            wb.save("薄荷网食物data-precise.xlsx")
+            wb.save("薄荷网食物data-precise1.xlsx")
 
         # 没有设置默认自动提交，需要主动提交，以保存所执行的语句
         connection.commit()
