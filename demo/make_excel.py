@@ -10,7 +10,7 @@ import pymysql
 import json
 import six
 from pyspider.libs import utils
-from demo.common.constants import SEARCH_LIST3
+from demo.common.constants import SEARCH_LIST4
 from demo.common.colors import font1
 
 title_row_all = ['名称', '类别', '营养素', '热量(大卡)', '碳水化合物(克)', '脂肪(克)', '蛋白质(克)', '纤维素(克)', '维生素A(微克)', '维生素C(毫克)',
@@ -43,7 +43,7 @@ def search_blob_demo():
     try:
         with connection.cursor() as cursor:
             # 执行sql语句，进行查询
-            sql = 'select * from boohee6'
+            sql = 'select * from boohee9'
             # 获取查询结果
             cursor.execute(sql)
             # data = cursor.fetchone()
@@ -54,8 +54,8 @@ def search_blob_demo():
             # 可以附加行，从第一列开始附加
             sheet.append(title_row_all)
             num = 1
-            for j in range(len(SEARCH_LIST3)):
-                search_key = SEARCH_LIST3[j]
+            for j in range(len(SEARCH_LIST4)):
+                search_key = SEARCH_LIST4[j]
                 search_key_title = []
                 search_key_title.append(search_key)
                 sheet.append(search_key_title)
